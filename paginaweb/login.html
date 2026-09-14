@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metfly</title>
+</head>
+<body>
+    <header>
+        <div class="contenedor">
+            <h2 class="logo">Metfly</h2>
+            <nav>
+                <a href="index.html" id="login">Volver al inicio</a>
+            </nav>
+        </div>
+    </header>
+    <div>
+        <form id="loginForm" onsubmit="procesarLogin(event)">
+            <h2>Iniciar sesión</h2>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo:</label>
+                <input type="email" placeholder="admin@admin" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña:</label>
+                <input type="password" placeholder="admin" class="form-control" id="password" required>
+            </div>
+            <div class="link-login">
+                <a class="link-login" href=""> ¿Olvidaste tu contraseña? </a><br>
+                <p>¿No tienes una cuenta? <a class="link-login" href="">Regístrate aquí</a></p>
+            </div>
+                <button type="submit" id="boton-login" class="btn btn-danger w-100">Iniciar sesión</button>
+        </form>
+    </div>
+
+    <footer class= "bg-dark text-white text-center py-3 mt-4">
+        <p class ="mb-0">© 2026 Metfly - Todos los derechos reservados</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+
+
+</body>
+</html>
