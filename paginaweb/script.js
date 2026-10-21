@@ -30,18 +30,18 @@ function verificarEstadoSesion() {
 function procesarLogin(event) {
     event.preventDefault(); 
 
-    const emailIngresado = document.getElementById('email').value;
+    const usuarioIngresado = document.getElementById('usuario').value;
     const passwordIngresada = document.getElementById('password').value;
 
 
-    if (emailIngresado === 'admin@admin' && passwordIngresada === 'admin') {
+    if (usuarioIngresado === 'admin@admin' && passwordIngresada === 'admin') {
 
         localStorage.setItem('usuarioLogeado', 'true');
 
         window.location.href = 'index.html'; 
     } else {
 
-        alert('Correo o contraseña incorrectos. Intenta nuevamente.');
+        alert('Usuario o contraseña incorrectos. Intenta nuevamente.');
     }
 }
 
