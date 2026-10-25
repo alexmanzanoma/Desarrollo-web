@@ -33,5 +33,20 @@
     "usuarios": "juan",
     "password": "juan345",
     "activo": true
+  },
+  {
+    "_id": 6,
+    "nombre": "Ayudante",
+    "usuarios": "ayudante",
+    "password": "ayudante",
+    "activo": true
+  },
+  {
+    "_id": 7,
+    "nombre": "Profesor",
+    "usuarios": "profesor",
+    "password": "profesor",
+    "activo": true
   }
+
 ]
