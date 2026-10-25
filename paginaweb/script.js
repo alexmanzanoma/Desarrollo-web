@@ -27,25 +27,6 @@ function verificarEstadoSesion() {
 }
 
 
-function procesarLogin(event) {
-    event.preventDefault(); 
-
-    const usuarioIngresado = document.getElementById('usuario').value;
-    const passwordIngresada = document.getElementById('password').value;
-
-
-    if (usuarioIngresado === 'admin@admin' && passwordIngresada === 'admin') {
-
-        localStorage.setItem('usuarioLogeado', 'true');
-
-        window.location.href = 'index.html'; 
-    } else {
-
-        alert('Usuario o contraseña incorrectos. Intenta nuevamente.');
-    }
-}
-
-
 function simularLogout(event) {
     event.preventDefault(); 
     
@@ -56,29 +37,108 @@ function simularLogout(event) {
     window.location.href = 'index.html'; 
 }
 
-function filtrarPeliculas() {
+function catalogoPeliculas() {
+    return {
+        peliculas: [],      // Aquí se guardarán las películas del JSON
+        busqueda: '',       // Conectado al buscador con x-model
+        cargando: true,     // Estado de carga (Punto 08 de la entrega)
+        error: null,        // Estado de error (Punto 08 de la entrega)
+        mostrarAyuda: false,// Para la sección de ayuda con x-show (Punto 06)
+        detalleAbierto: null,
 
-    const textoBusqueda = document.getElementById('buscador').value.toLowerCase();
-    
-
-    const listaTarjetas = document.querySelectorAll('.seccion-catalogo .col-md-3');
-
-    listaTarjetas.forEach(tarjeta => {
-        const tituloElemento = tarjeta.querySelector('.title');
-        if (tituloElemento) {
-            const tituloTexto = tituloElemento.textContent.toLowerCase();
-
-
-            if (tituloTexto.includes(textoBusqueda)) {
-                tarjeta.style.display = "";
-            } else {
-                tarjeta.style.display = "none";
+        // Esta función la llamaremos automáticamente al abrir la página
+        alternarDetalle(id) {
+        this.detalleAbierto = (this.detalleAbierto === id) ? null : id;
+        },
+        async cargarDatos() {
+            this.cargando = true;
+            this.error = null;
+            try {
+                const respuesta = await fetch('peliculas.json');
+                if (!respuesta.ok) {
+                    throw new Error('No se pudo cargar el archivo peliculas.json');
+                }
+                this.peliculas = await respuesta.json();
+            } catch (err) {
+                this.error = err.message;
+            } finally {
+                this.cargando = false;
             }
+        },
+
+        // Filtra automáticamente las películas según lo que se escriba en el buscador
+        get peliculasFiltradas() {
+            if (this.busqueda.trim() === '') {
+                return this.peliculas;
+            }
+            return this.peliculas.filter(peli =>
+                peli.titulo.toLowerCase().includes(this.busqueda.toLowerCase())
+            );
         }
-    });
+    }
 }
 
 
 function mostrarMensajeLista() {
     alert("¡'Avengers: Endgame Encore' se ha añadido a tu lista personal exitosamente!");
+}
+
+
+function loginAlpine() {
+    return {
+        usuario: '',
+        password: '',
+        mensaje: '',
+        exito: false,
+        cargando: false,
+        errores: {},
+
+        validar() {
+            const e = {};
+            if (!this.usuario.trim()) e.usuario = 'Ingresa tu usuario.';
+            if (!this.password) e.password = 'Ingresa tu contraseña.';
+            this.errores = e;
+            return Object.keys(e).length === 0;
+        },
+
+        async iniciarSesion() {
+            this.mensaje = '';
+            if (!this.validar()) {
+                this.exito = false;
+                this.mensaje = 'Completa los campos requeridos.';
+                return;
+            }
+
+            this.cargando = true;
+            try {
+                const respuesta = await fetch('usuarios.json');
+                if (!respuesta.ok) {
+                    throw new Error('No se pudo cargar usuarios.json');
+                }
+                const usuarios = await respuesta.json();
+
+                const encontrado = usuarios.find(u =>
+                    u.usuarios === this.usuario.trim() &&
+                    u.password === this.password &&
+                    u.activo === true
+                );
+
+                if (encontrado) {
+                    this.exito = true;
+                    this.mensaje = '¡Inicio de sesión exitoso! Redirigiendo...';
+                    localStorage.setItem('usuarioLogeado', 'true');
+                    setTimeout(() => window.location.href = 'index.html', 1000);
+                } else {
+                    this.exito = false;
+                    this.mensaje = 'Usuario o contraseña incorrectos.';
+                    this.password = '';
+                }
+            } catch (error) {
+                this.exito = false;
+                this.mensaje = 'Error al conectar con la base de usuarios.';
+            } finally {
+                this.cargando = false;
+            }
+        }
+    }
 }
