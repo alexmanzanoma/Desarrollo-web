@@ -39,14 +39,14 @@ function simularLogout(event) {
 
 function catalogoPeliculas() {
     return {
-        peliculas: [],      // Aquí se guardarán las películas del JSON
-        busqueda: '',       // Conectado al buscador con x-model
-        cargando: true,     // Estado de carga (Punto 08 de la entrega)
-        error: null,        // Estado de error (Punto 08 de la entrega)
-        mostrarAyuda: false,// Para la sección de ayuda con x-show (Punto 06)
+        peliculas: [],     
+        busqueda: '',       
+        cargando: true,     
+        error: null,      
+        mostrarAyuda: false,
         detalleAbierto: null,
 
-        // Esta función la llamaremos automáticamente al abrir la página
+
         alternarDetalle(id) {
         this.detalleAbierto = (this.detalleAbierto === id) ? null : id;
         },
@@ -66,7 +66,7 @@ function catalogoPeliculas() {
             }
         },
 
-        // Filtra automáticamente las películas según lo que se escriba en el buscador
+
         get peliculasFiltradas() {
             if (this.busqueda.trim() === '') {
                 return this.peliculas;
