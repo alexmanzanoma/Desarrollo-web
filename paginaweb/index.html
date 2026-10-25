@@ -3,6 +3,7 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metfly</title>
@@ -43,54 +44,51 @@
                 </div>
         </section>
 
-        <section class="seccion-catalogo">
-            <div class="contenedor">
-                
-                <div class="cabecera-catalogo">
-                    <h3 class="titulo-catalogo">Peliculas populares</h3>
-                    <input type="text" id="buscador" class="input-busqueda" placeholder="Buscar pelicula" onkeyup="filtrarPeliculas()">
-                </div>
-            
-                <div class="row mt-4">
-                    <div class="col-md-3 mb-3 item-pelicula">
-                        <div class="card bg-dark text-white">
-                            <img src="img/nowayhomenuevo.png" class="card-img-top" alt="Pelicula 1">
-                            <div class="card-body">
-                                <h5 class="title">Spider-Man no way home</h5>
-                                <button class="btn btn-danger btn-sm" >Ver detalles</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3 item-pelicula">
-                        <div class="card bg-dark text-white">
-                            <img src="img/comoentrenar.png" class="card-img-top" alt="Pelicula 2">
-                            <div class="card-body">
-                                <h5 class="title">Como entrenar a tu dragón</h5>
-                                <button class="btn btn-danger btn-sm">Ver detalles</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3 item-pelicula">
-                        <div class="card bg-dark text-white">
-                            <img src="img/sonic3.png" class="card-img-top" alt="Pelicula 3">
-                            <div class="card-body">
-                                <h5 class="title">Sonic 3</h5>
-                                <button class="btn btn-danger btn-sm">Ver detalles</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-3 item-pelicula">
-                        <div class="card bg-dark text-white">
-                            <img src="img/ryfx.png" class="card-img-top" alt="Pelicula 4">
-                            <div class="card-body">
-                                <h5 class="title">Rapidos y furiosos X</h5>
-                                <button class="btn btn-danger btn-sm">Ver detalles</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+<section class="seccion-catalogo" x-data="catalogoPeliculas()" x-init="cargarDatos()">
+    <div class="contenedor">
+        <div class="cabecera-catalogo">
+            <div class="d-flex align-items-center gap-3">
+                <h3 class="titulo-catalogo">Películas populares</h3>
+                <button type="button" class="btn btn-outline-light btn-sm" @click="mostrarAyuda = !mostrarAyuda">
+                    <i class="fa-solid fa-circle-question"></i> Ayuda
+                </button>
             </div>
-        </section>
+            <input type="text" x-model="busqueda" class="input-busqueda" placeholder="Buscar película...">
+        </div>
+        <div x-show="mostrarAyuda" class="alert alert-secondary mt-3" style="display: none;">
+            <strong>¿Cómo usar el catálogo?</strong> Escribe en el buscador para filtrar películas en tiempo real o haz clic en "Ver detalles" para leer las sinopsis.
+        </div>
+        <div x-show="cargando" class="text-white text-center my-5">
+            <p>Cargando catálogo de películas...</p>
+        </div>
+        <div x-show="error" class="alert alert-danger mt-4" style="display: none;">
+            <strong>Error:</strong> <span x-text="error"></span>
+        </div>
+        <div x-show="!cargando && !error && peliculasFiltradas.length === 0" class="text-white text-center my-5" style="display: none;">
+            <p>No se encontraron películas que coincidan con "<span x-text="busqueda"></span>".</p>
+        </div>
+        <div class="row mt-4 align-items-start" x-show="!cargando && !error">
+            <template x-for="pelicula in peliculasFiltradas" :key="pelicula.id">
+                <div class="col-md-3 mb-3 item-pelicula">
+                    <div class="card bg-dark text-white">
+                        <img :src="pelicula.imagen" class="card-img-top" :alt="pelicula.titulo">
+                        <div class="card-body">
+                            <h5 class="title" x-text="pelicula.titulo"></h5>
+                            <p class="text-secondary mb-2" x-text="pelicula.año"></p>
+                            <div class="small mb-2" x-show="detalleAbierto === pelicula.id" style="display: none;">
+                                <p class="mb-1" x-text="pelicula.sinopsis"></p>
+                                <p class="mb-1"><strong>Director:</strong> <span x-text="pelicula.director"></span></p>
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm" @click="alternarDetalle(pelicula.id)"
+                                    x-text="detalleAbierto === pelicula.id ? 'Ocultar detalles' : 'Ver detalles'"></button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</section>
     </main>
 
     <script src="script.js"></script>
@@ -98,6 +96,7 @@
 
     <footer class="bg-dark text-white text-center py-3 mt-4">
         <p class="mb-0">© 2026 Metfly - Todos los derechos reservados</p>
+        <small class="text-muted">Proyecto académico sin fines de lucro</small>
     </footer>
 
 </body>
