@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "titulo": "Spider-Man: No Way Home",
+    "imagen": "img/nowayhomenuevo.png",
+    "año": 2021,
+    "director": "Jon Watts",
+    "sinopsis": "Tras descubrirse la identidad secreta de Peter Parker, pide ayuda al Doctor Strange, desatando el multiverso."
+  },
+  {
+    "id": 2,
+    "titulo": "Cómo entrenar a tu dragón",
+    "imagen": "img/comoentrenar.png",
+    "año": 2010,
+    "director": "Dean DeBlois",
+    "sinopsis": "Un joven vikingo llamado Hipo desafía la tradición al hacerse amigo de un temido dragón Furia Nocturna."
+  },
+  {
+    "id": 3,
+    "titulo": "Sonic 3",
+    "imagen": "img/sonic3.png",
+    "año": 2024,
+    "director": "Jeff Fowler",
+    "sinopsis": "Sonic, Knuckles y Tails se reúnen contra un nuevo y poderoso adversario: Shadow el Erizo."
+  },
+  {
+    "id": 4,
+    "titulo": "Rápidos y Furiosos X",
+    "imagen": "img/ryfx.png",
+    "año": 2023,
+    "director": "Louis Leterrier",
+    "sinopsis": "Dom Toretto y su familia son el objetivo del vengativo hijo del capo de la droga Hernán Reyes."
+  },
+  {
+    "id": 5,
+    "titulo": "Avengers: Endgame Encore",
+    "imagen": "img/cartelreseña1.jpg",
+    "año": 2019,
+    "director": "Anthony y Joe Russo",
+    "sinopsis": "Los Vengadores restantes se unen una vez más para deshacer la destrucción de Thanos."
+  }
+]
